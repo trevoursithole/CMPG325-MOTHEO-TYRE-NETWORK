@@ -60,7 +60,7 @@ connectivity re-test — and corrected. Full evidence and command sequence in
 
 - [x] Client requirements analysed
 - [x] Network design complete (topology + IP addressing)
-- [ ] Packet Tracer implementation
+- [x] Packet Tracer implementation
 - [ ] Assigned technical challenge configured and verified
 - [ ] Testing evidence captured
 - [ ] Video demonstration recorded

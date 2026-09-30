@@ -18,7 +18,7 @@ during the project, not a finished reflection.*
 
 ## Challenges
 
-- The trunk/native VLAN mismatch was subtle — the interfaces looked
+- The trunk/native VLAN mismatch was subtle the interfaces looked
   "configured" but had trunk and access commands mixed together on the
   same port, which took careful reading of `show running-config` to
   spot.

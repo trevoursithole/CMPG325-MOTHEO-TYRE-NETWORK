@@ -12,7 +12,7 @@ during the project, not a finished reflection.*
   router-generated "Destination host unreachable" response proving the
   ACL is actively enforced.
 - Three real faults were found and independently diagnosed during
-  testing, rather than one artificial fault being planted — this gave
+  testing, rather than one artificial fault being planted , this gave
   genuine practice with CDP, MAC address tables, interface status, and
   systematic elimination as diagnostic tools.
 

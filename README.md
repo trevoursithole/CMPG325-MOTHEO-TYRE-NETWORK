@@ -1,4 +1,4 @@
-# CMPG 325 — Individual Semester Project
+# CMPG325  Individual Semester Project
 ## Motheo Tyre & Exhaust Centre (Vryburg)
 
 | Field | Value |

@@ -63,33 +63,6 @@ LAP-Diagnostic  |  Recep Mgr Sales1 Sales2  GuestLaptop1
 
 Full VLSM working is in `docs/ip-addressing-plan.md`.
 
-## Repository Structure
-
-```
-├── README.md
-├── docs/
-│   ├── client-requirements.md
-│   ├── network-design.md
-│   ├── ip-addressing-plan.md
-│   ├── troubleshooting-log.md
-│   └── testing-evidence.md
-├── configs/
-│   ├── R1-running-config.txt
-│   ├── SW-Core-running-config.txt
-│   └── SW-Workshop-running-config.txt
-├── screenshots/
-│   ├── topology/
-│   ├── router/
-│   ├── switches/
-│   ├── testing/
-│   ├── troubleshooting-trunk/
-│   ├── troubleshooting-cabling/
-│   └── troubleshooting-guest-wifi/
-├── packet-tracer/
-│   └── PROJECT.pkt
-└── reflection.md
-```
-
 ## How to Open
 
 1. Open `packet-tracer/PROJECT.pkt` in Cisco Packet Tracer.
@@ -97,8 +70,6 @@ Full VLSM working is in `docs/ip-addressing-plan.md`.
 3. Suggested verification commands are listed in `docs/testing-evidence.md`.
 
 ## Video Demonstration
-
-[Link to be added]
 
 ## Academic Integrity
 

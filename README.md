@@ -1,73 +1,111 @@
-# Motheo Tyre & Exhaust Centre — Network Design Project
+# CMPG 325 — Individual Semester Project
+## Motheo Tyre & Exhaust Centre (Vryburg)
 
-**Module:** CMPG 325 — Computer Networks (NWU)
-**Project ID:** CMPG325-2026-137 | **Client ID:** CLI-137
-**Student:** Sithole, T (45485097)
-
-## Project brief
-
-Individual semester project: analyse, design, simulate, configure and demonstrate a
-computer network for **Motheo Tyre & Exhaust Centre**, an automotive workshop in Vryburg.
-
-- **Assigned addressing block:** `192.168.58.0/24`
-- **Assigned technical challenge:** Network troubleshooting — fault isolation (Intermediate)
-- **Change request (CR3):** Guest Wi-Fi, isolated from all internal resources
-- **Design constraint:** New application/file server planned within 6 months
-
-## Repository structure
-
-| Folder | Contents |
+| Field | Value |
 |---|---|
-| [`01-requirements/`](./01-requirements) | Client requirements analysis |
-| [`02-design/`](./02-design) | Physical & logical topology, VLAN plan, IP addressing table |
-| [`03-packet-tracer/`](./03-packet-tracer) | Final `.pkt` file and build screenshots |
-| [`04-configuration/`](./04-configuration) | Exported running-configs (router, all switches) |
-| [`05-testing/`](./05-testing) | Ping/DHCP verification evidence |
-| [`06-troubleshooting/`](./06-troubleshooting) | Fault-isolation scenario: before/after evidence and explanation |
-| [`07-video/`](./07-video) | Link to the 15–20 minute demonstration video |
+| Student | Sithole, T |
+| Student Number | 45485097 |
+| Project ID | CMPG325-2026-137 |
+| Client ID | CLI-137 |
+| Assigned Organisation | Motheo Tyre & Exhaust Centre (Vryburg) |
+| Industry | Automotive |
+| Assigned Networking Challenge | Network Troubleshooting (fault isolation scenario) — Intermediate |
+| Addressing Block | 192.168.58.0/24 |
+| Design Constraint | New server (application or file) planned within six months |
+| Change Request | CR3: Guest Wi-Fi must be added for visitors, isolated from internal resources |
 
-## Network summary
+## Project Overview
 
-| VLAN | Name | Subnet | Gateway |
-|---|---|---|---|
-| 10 | MGMT | 192.168.58.0/27 | .1 |
-| 20 | SALES | 192.168.58.32/27 | .33 |
-| 30 | WORKSHOP | 192.168.58.64/27 | .65 |
-| 40 | SERVERS (reserved) | 192.168.58.96/28 | .97 |
-| 99 | GUEST (isolated) | 192.168.58.112/28 | .113 |
+This project designs and simulates a small automotive-shop network for
+Motheo Tyre & Exhaust Centre in Cisco Packet Tracer. The network uses a
+**router-on-a-stick** topology: a single Cisco 2911 router (Router1) with
+VLAN sub-interfaces, trunked down through a core switch (SW-Core) to two
+access switches (SW-Workshop, SW-Office) and a wireless access point
+(AP-Guest).
 
-Full design justification is in [`02-design/network-design-documentation.md`](./02-design/network-design-documentation.md).
+Five VLANs are implemented over the assigned 192.168.58.0/24 block using
+VLSM, giving the shop separate broadcast domains for management, sales,
+workshop devices, a future server, and isolated guest Wi-Fi (satisfying
+CR3). See `docs/ip-addressing-plan.md` for the full breakdown.
 
-## Key design decisions
+During implementation and testing, **two real faults** were found and
+resolved using systematic fault-isolation methodology (not staged faults):
+a trunk/native-VLAN mismatch between two switches, and a set of
+connectivity failures traced to a missing physical link and a wireless
+SSID mismatch. Both are documented in full in
+`docs/troubleshooting-log.md`, satisfying the assigned Network
+Troubleshooting challenge (section 9 of the project brief).
 
-- **Router-on-a-stick**, one physical uplink, five sub-interfaces — appropriate for the
-  device count on this network, avoids the cost/complexity of a Layer-3 switch.
-- **VLSM addressing** sized to real device counts rather than equal splits, keeping the
-  upper half of the /24 free for future growth.
-- **VLAN 40 reserved but not built** — satisfies the six-month server constraint without
-  inventing scope that wasn't in the brief.
-- **ACL on the guest sub-interface** blocks the four internal subnets while still
-  permitting outbound traffic — satisfies CR3 with a single access-list.
+## Topology
 
-## Assigned technical challenge
+See `screenshots/topology/` for the full logical topology. In summary:
 
-A fault was deliberately introduced (VLAN 30 removed from the core switch's uplink trunk),
-then isolated using a layered method — physical link check, VLAN/trunk check, then
-connectivity re-test — and corrected. Full evidence and command sequence in
-[`06-troubleshooting/`](./06-troubleshooting).
+```
+                    Router1 (2911)
+                        |
+                    SW-Core (2960)
+              /         |          \
+      SW-Workshop    SW-Office    AP-Guest
+      /        \     /  |  |  \       |
+LAP-Diagnostic  |  Recep Mgr Sales1 Sales2  GuestLaptop1
+           PC-Jobcard        Printer         GuestPhone1
+```
 
-## Status
+## VLAN Summary
 
-- [x] Client requirements analysed
-- [x] Network design complete (topology + IP addressing)
-- [x] Packet Tracer implementation
-- [ ] Assigned technical challenge configured and verified
-- [ ] Testing evidence captured
-- [ ] Video demonstration recorded
-- [ ] Final submission
+| VLAN | Name | Subnet | Gateway | Purpose |
+|---|---|---|---|---|
+| 10 | MGMT | 192.168.58.0/27 | .1 | Management |
+| 20 | SALES | 192.168.58.32/27 | .33 | Sales / office |
+| 30 | WORKSHOP | 192.168.58.64/27 | .65 | Workshop / diagnostic devices |
+| 40 | SERVERS | 192.168.58.96/28 | .97 | Reserved for planned server (design constraint) |
+| 99 | GUEST | 192.168.58.112/28 | .113 | Guest Wi-Fi, isolated (CR3) |
 
-## Academic integrity
+Full VLSM working is in `docs/ip-addressing-plan.md`.
 
-This is individual work for CMPG325-2026-137. AI assistance was used for planning and
-documentation support; all configuration, testing, verification and understanding is my
-own, per the NWU AI Policy referenced in the project brief.
+## Repository Structure
+
+```
+├── README.md
+├── docs/
+│   ├── client-requirements.md
+│   ├── network-design.md
+│   ├── ip-addressing-plan.md
+│   ├── troubleshooting-log.md
+│   └── testing-evidence.md
+├── configs/
+│   ├── R1-running-config.txt
+│   ├── SW-Core-running-config.txt
+│   └── SW-Workshop-running-config.txt
+├── screenshots/
+│   ├── topology/
+│   ├── router/
+│   ├── switches/
+│   ├── testing/
+│   ├── troubleshooting-trunk/
+│   ├── troubleshooting-cabling/
+│   └── troubleshooting-guest-wifi/
+├── packet-tracer/
+│   └── PROJECT.pkt
+└── reflection.md
+```
+
+## How to Open
+
+1. Open `packet-tracer/PROJECT.pkt` in Cisco Packet Tracer.
+2. All device configurations are saved to startup-config.
+3. Suggested verification commands are listed in `docs/testing-evidence.md`.
+
+## Video Demonstration
+
+[Link to be added]
+
+## Academic Integrity
+
+AI assistance  was used during this project for design guidance,
+configuration review, and documentation drafting, in line with the CMPG
+325 brief and the NWU AI Policy. All configuration was entered, tested,
+and verified on the actual devices by the student, including diagnosis
+of two real faults that emerged during implementation. The student
+remains responsible for the correctness, understanding, and academic
+integrity of everything submitted.
